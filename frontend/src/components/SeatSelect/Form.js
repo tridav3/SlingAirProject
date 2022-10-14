@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 import Input from "./Input"
 
-const Form = ({handleSubmit, selectedSeat}) => {
+const Form = ({ handleSubmit, selectedSeat }) => {
 
     const [formData, setFormData] = useState({});
 

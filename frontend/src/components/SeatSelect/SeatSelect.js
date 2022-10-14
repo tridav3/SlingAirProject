@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Plane from "./Plane";
 import Form from "./Form";
 
-const SeatSelect = ({selectedFlight}) => {
+const SeatSelect = ({ selectedFlight, setReservationId }) => {
 
     const [selectedSeat, setSelectedSeat] = useState("");
 

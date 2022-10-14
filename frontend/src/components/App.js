@@ -12,6 +12,7 @@ import GlobalStyles from "./GlobalStyles";
 const App = () => {
 
     const [selectedFlight, setSelectedFlight] = useState("");
+    const [reservationId, setReservationId] = useState(window.localStorage.getItem("reservationId"));
 
     const handleChange = (e) => {
         setSelectedFlight(e.target.value);
@@ -20,10 +21,10 @@ const App = () => {
     return (
         <BrowserRouter>
             <GlobalStyles />
-            <Header handleChange={handleChange} />
+            <Header handleChange={handleChange} reservationId={reservationId} />
             <Main>
                 <Routes>
-                    <Route path="/" element={<SeatSelect selectedFlight={selectedFlight} />} />
+                    <Route path="/" element={<SeatSelect selectedFlight={selectedFlight} setReservationId={setReservationId} />} />
                     <Route path="/confirmation" element={<Confirmation />} />
                     <Route path="/reservation" element={<Reservation />} />
                     <Route path="" element={<h1>404: Oops!</h1>} />

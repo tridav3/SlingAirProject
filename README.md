@@ -113,11 +113,11 @@ res.status(200).json({ status: 200, data: {}, message: {} });
 1. User can select a flight from a dropdown.
 2. User can select an available seat.
 3. User can enter their personal information.
-4. User can view the flight confirmation page.
-5. Given a reservation `id`, user should be able to view their reservation at `/reservation`.
-6. The reservation button in the header should only appear once a reservation has been made and should only show the last reservation booked.
+4. User can view the flight confirmation page after booking a seat.
+    - The confirmation page should `fetch` the details of the reservation from the backend based on it's unique `id`.
+5. The reservation button in the header should only appear once a reservation has been made and should only show the lastest reservation booked.
     - **Showing multiple reservations is a stretch goal.**
-7. The reservation page should `fetch` the details of the reservation from the backend based on it's unique ID.
+6. The reservation page should `fetch` the details of the reservation from the backend based on it's unique `id`.
 
 > The frontend is mostly complete, look for the `TODO` comments in the components to figure out what needs to be done!
 

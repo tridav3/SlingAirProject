@@ -4,7 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 
 import slingairLogo from "../assets/logo_text.png";
 
-const Header = ({ handleChange }) => {
+const Header = ({ handleChange, reservationId }) => {
 
     const [flightNumbers, setFlightNumbers] = useState([]);
 

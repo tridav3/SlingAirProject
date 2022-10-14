@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Plane = ({setSelectedSeat, selectedFlight}) => {
+const Plane = ({ setSelectedSeat, selectedFlight }) => {
 
     const [seating, setSeating] = useState([]);
 
