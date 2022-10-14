@@ -96,8 +96,8 @@ In order for your project to be considered `DONE` (passing grade), you should ha
         - **_Must work through Insomnia._**
         - **_Having a FE component do this is a stretch goal._**
 3. Server should respond in a _complete_ fashion:
-    - Send the status and the json separately.
-    - Send the status in the json object as well.
+    - Send the status and the `json` separately.
+    - Send the status in the `json` object as well.
     - When a request succeeds respond with `the requested data`.
     - When a request fails, respond with `the data that was sent to the server`. _This makes it easier for FE developers to debug their code._
     - When a request does not need any data to be returned, provide a message explaining the status: i.e. "reservation deleted."
@@ -115,7 +115,7 @@ res.status(200).json({ status: 200, data: {}, message: {} });
 3. User can enter their personal information.
 4. User can view the flight confirmation page after booking a seat.
     - The confirmation page should `fetch` the details of the reservation from the backend based on it's unique `id`.
-5. The reservation button in the header should only appear once a reservation has been made and should only show the lastest reservation booked.
+5. The reservation button in the header should only appear once a reservation has been made and should only show the latest reservation booked.
     - **Showing multiple reservations is a stretch goal.**
 6. The reservation page should `fetch` the details of the reservation from the backend based on it's unique `id`.
 
