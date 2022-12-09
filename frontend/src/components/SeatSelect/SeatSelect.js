@@ -11,6 +11,8 @@ const SeatSelect = ({ selectedFlight, setReservationId }) => {
     const handleSubmit = (e, formData) => {
         e.preventDefault();
         // TODO: POST info to server
+        // TODO: Save reservationId
+        // TODO: Redirect to confirmation page
     }
 
     return (

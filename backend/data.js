@@ -127,7 +127,7 @@ const flights = {
 
 const reservations = [
     {
-        id: "88a33c23-3332-4ef2-bd71-be7a6430485f",
+        _id: "88a33c23-3332-4ef2-bd71-be7a6430485f",
         flight: "SA231",
         seat: "4D",
         givenName: "Marty",
@@ -135,7 +135,7 @@ const reservations = [
         email: "marty@backfuture.com",
     },
     {
-        id: "e7b610c6-ceea-449e-921a-838d042490ce",
+        _id: "e7b610c6-ceea-449e-921a-838d042490ce",
         flight: "FD489",
         seat: "7B",
         givenName: "Barty",

@@ -23,7 +23,9 @@ Looks like you're on your own...
 ### Screenshots
 
 <img src='frontend/src/assets/screenshots/seat-select.png' style='float:left;width:48%;margin-right:4%;' />
-<img src='frontend/src/assets/screenshots/confirmed.png' style='float:left;width:48%' />
+<img src='frontend/src/assets/screenshots/confirmed.png' style='width:48%;' />
+
+---
 
 ### Functionality
 
@@ -32,7 +34,7 @@ Looks like you're on your own...
 - When a response with seating is received, display the seating input as well as the form requesting user's information.
 - User selects a seat, enters information and clicks 'Confirm'.
 - Contact the server with the data, and wait for a success response to redirect to the `/confirmation` page.
-- The confirmed page should display a confirmation message to the user with the info that they entered on the previous screen.
+- The confirmation page should display a confirmation message to the user with the info that they entered on the previous screen.
 - Consider using `localStorage` to save the reservation id, to allow for retrieval if the user closes and reopens the browser at `/reservation`.
 
 ---
@@ -103,7 +105,7 @@ In order for your project to be considered `DONE` (passing grade), you should ha
     - When a request does not need any data to be returned, provide a message explaining the status: i.e. "reservation deleted."
 
 ```js
-res.status(200).json({ status: 200, data: {}, message: {} });
+res.status(200).json({ status: 200, data: {}, message: "" });
 ```
 
 ---
@@ -115,9 +117,9 @@ res.status(200).json({ status: 200, data: {}, message: {} });
 3. User can enter their personal information.
 4. User can view the flight confirmation page after booking a seat.
     - The confirmation page should `fetch` the details of the reservation from the backend based on it's unique `id`.
-5. The reservation button in the header should only appear once a reservation has been made and should only show the latest reservation booked.
+5. The reservation button in the header should only appear once a reservation has been made.
+6. The reservation page should `fetch` the details of the most recent reservation from the backend based on it's unique `id`.
     - **Showing multiple reservations is a stretch goal.**
-6. The reservation page should `fetch` the details of the reservation from the backend based on it's unique `id`.
 
 > The frontend is mostly complete, look for the `TODO` comments in the components to figure out what needs to be done!
 
@@ -133,6 +135,7 @@ In order to incorporate the Database, you will need to setup your backend as it 
 
 ```js
 {
+    _id: "SA231",
     flight: "SA231",
     seats: [{...}, {...}, {...}, ...]
 }
@@ -140,6 +143,8 @@ In order to incorporate the Database, you will need to setup your backend as it 
 
 ### Stretch
 
+- Validate the data being sent to the server.
+- Check if the seat being booked is available (creating / updating a reservation).
 - Create an interface for users to search, update and/or cancel their reservation at `/reservation`.
 - Create an admin interface at `/admin` to view all of the reservation. (The design is up to you.)
 - Even more flights with randomized reserved seats!

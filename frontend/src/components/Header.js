@@ -29,7 +29,7 @@ const Header = ({ handleChange, reservationId }) => {
             <Nav>
                 <>
                     {/* TODO: only show link if the user has a reservation already */}
-                    <StyledNavLink to="/view-reservation">Reservation</StyledNavLink>
+                    <StyledNavLink to="/reservation">Reservation</StyledNavLink>
                 </>
             </Nav>
         </Wrapper>
@@ -84,11 +84,6 @@ const StyledNavLink = styled(NavLink)`
     width: 100%;
     text-decoration: none;
     transition: all ease 400ms;
-
-    &:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-    }
 
     &:hover {
         background: var(--color-alabama-crimson);

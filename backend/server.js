@@ -25,7 +25,7 @@ express()
     // Any requests for static files will go into the public folder
     .use(express.static("public"))
 
-    // Nothing to modify above this line
+    // Nothing to modify above or below this line
     // ---------------------------------
     
     .get("/api/get-flights", getFlights)
@@ -40,7 +40,7 @@ express()
     .delete("/api/delete-reservation/:reservation", deleteReservation)
 
     // ---------------------------------
-    // Nothing to modify below this line
+    // Nothing to modify above or below this line
 
     // this is our catch all endpoint.
     .get("*", (req, res) => {

@@ -12,7 +12,11 @@ import GlobalStyles from "./GlobalStyles";
 const App = () => {
 
     const [selectedFlight, setSelectedFlight] = useState("");
-    const [reservationId, setReservationId] = useState(window.localStorage.getItem("reservationId"));
+    const [reservationId, setReservationId] = useState(() => {
+        const storedValue = window.localStorage.getItem("reservationId");
+
+        return storedValue !== null ? JSON.parse(storedValue) : storedValue;
+    });
 
     const handleChange = (e) => {
         setSelectedFlight(e.target.value);

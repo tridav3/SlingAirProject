@@ -12,20 +12,22 @@ const Plane = ({ setSelectedSeat, selectedFlight }) => {
     return (
         <Wrapper>
             {seating && seating.length > 0 ? (
-                seating.map((seat) => (
-                    <SeatWrapper key={`seat-${seat.id}`}>
-                        <label>
-                            {seat.isAvailable ? (
-                                <>
-                                    <Seat type="radio" name="seat" onChange={() => {setSelectedSeat(seat.id)}} />
-                                    <Available>{seat.id}</Available>
-                                </>
-                            ) : (
-                                <Unavailable>{seat.id}</Unavailable>
-                            )}
-                        </label>
-                    </SeatWrapper>
-                ))
+                seating.map((seat) => {
+                    return (
+                        <SeatWrapper key={`seat-${seat.id}`}>
+                            <label>
+                                {seat.isAvailable ? (
+                                    <>
+                                        <Seat type="radio" name="seat" onChange={() => {setSelectedSeat(seat.id)}} />
+                                        <Available>{seat.id}</Available>
+                                    </>
+                                ) : (
+                                    <Unavailable>{seat.id}</Unavailable>
+                                )}
+                            </label>
+                        </SeatWrapper>
+                    )
+                })
             ) : (
                 <Placeholder>Select a Flight to view seating.</Placeholder>
             )}
