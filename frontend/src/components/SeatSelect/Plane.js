@@ -3,12 +3,17 @@ import styled from "styled-components";
 
 const Plane = ({ setSelectedSeat, selectedFlight }) => {
   const [seating, setSeating] = useState([]);
-
+  console.log(selectedFlight);
   useEffect(() => {
     fetch(`/api/get-flight/${selectedFlight}`)
       .then((res) => res.json())
       .then((data) => {
-        setSeating(data.data[0].seats);
+        console.log(data);
+        if (data.data && data.data.seats) {
+          setSeating(data.data.seats);
+        } else {
+          console.log("Seats not found");
+        }
       })
       .catch((error) => {
         console.log(error);

@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Plane from "./Plane";
 import Form from "./Form";
 
 const SeatSelect = ({ selectedFlight, setReservationId }) => {
   const [selectedSeat, setSelectedSeat] = useState("");
+  const Navigate = useNavigate();
+  const uuid = require("uuid");
 
   const handleSubmit = (e, formData) => {
     e.preventDefault();
+    console.log(formData);
     const reservationData = {
+      id: uuid.v4(),
       email: formData.email,
       selectedSeat: selectedSeat,
       selectedFlight: selectedFlight,
@@ -31,9 +35,10 @@ const SeatSelect = ({ selectedFlight, setReservationId }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem("reservationId", data.id);
-        setReservationId(data.id);
-        Navigate(`/confirmation/${data.id}`);
+        localStorage.setItem("reservationId", data.data.insertedId);
+        setReservationId(data.data.insertedId);
+        console.log(data);
+        Navigate(`/confirmation/${data.data.insertedId}`);
         console.log(data);
       })
       .catch((error) => console.log(error));

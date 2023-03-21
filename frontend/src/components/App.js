@@ -13,7 +13,7 @@ const App = () => {
   const [selectedFlight, setSelectedFlight] = useState("");
   const [reservationId, setReservationId] = useState(() => {
     const storedValue = window.localStorage.getItem("reservationId");
-    return storedValue !== null ? JSON.parse(storedValue) : null;
+    return storedValue;
   });
 
   useEffect(() => {
@@ -39,8 +39,8 @@ const App = () => {
               />
             }
           />
-          <Route path="/confirmation" element={<Confirmation />} />
-          <Route path="/reservation" element={<Reservation />} />
+          <Route path="/confirmation/:id" element={<Confirmation />} />
+          <Route path="/reservation/" element={<Reservation />} />
           <Route path="" element={<h1>404: Oops!</h1>} />
         </Routes>
         <Footer />

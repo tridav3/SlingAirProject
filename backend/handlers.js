@@ -1,4 +1,5 @@
 "use strict";
+require("dotenv").config();
 
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require("uuid");
@@ -85,7 +86,7 @@ const getReservations = async (req, res) => {
 //fourth
 // returns a single reservation
 const getSingleReservation = async (req, res) => {
-  const client = new MongoClient(Mongo_URI, options);
+  const client = new MongoClient(MONGO_URI, options);
   const reservation = req.params.reservation;
 
   try {
@@ -94,8 +95,9 @@ const getSingleReservation = async (req, res) => {
     // get a reference to the database
     const db = client.db("Slingair");
     // find the reservation
-    const result = await db.collection("Reservations").findOne({ reservation });
-
+    const result = await db
+      .collection("Reservations")
+      .findOne({ _id: reservation });
     // check if the result is null
     if (result === null) {
       return res.status(404).json({ message: "No Reservation Found" });
@@ -116,12 +118,13 @@ const getSingleReservation = async (req, res) => {
 const addReservation = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const reservation = req.body;
+  console.log(reservation);
   const newReservation = {
-    _id: uuidv4(),
-    flight: reservation.flightNum,
-    seat: reservation.seat,
-    firstName: reservation.firstName,
-    lastName: reservation.lastName,
+    _id: reservation.id,
+    flight: reservation.selectedFlight,
+    seat: reservation.selectedSeat,
+    firstName: reservation.givenName,
+    lastName: reservation.surname,
     email: reservation.email,
   };
 
