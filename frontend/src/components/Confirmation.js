@@ -31,10 +31,10 @@ const Confirmation = () => {
             Email: <Span>{guest.email}</Span>
           </div>
           <div>
-            First Name: <Span>{guest.givenName}</Span>
+            First Name: <Span>{guest.firstName}</Span>
           </div>
           <div>
-            Last Name: <Span>{guest.surname}</Span>
+            Last Name: <Span>{guest.lastName}</Span>
           </div>
           <div>
             Flight Number: <Span>{guest.flight}</Span>

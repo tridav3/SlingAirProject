@@ -138,6 +138,14 @@ const addReservation = async (req, res) => {
     const result = await db
       .collection("Reservations")
       .insertOne(newReservation);
+    //updated seat
+    const addSeatToFlight = await db.collection("Flights").updateOne(
+      {
+        _id: reservation.selectedFlight,
+        "seats.id": reservation.selectedSeat.toUpperCase(),
+      },
+      { $set: { "seats.$.isAvailable": false } }
+    );
 
     //return success
     return res
@@ -194,6 +202,15 @@ const updateReservation = async (req, res) => {
       .collection("Reservations")
       .updateOne({ _id: ObjectId(reservationId) }, updates);
 
+    const updateFlight = {
+      $push: {
+        reservations: reservationId,
+      },
+    };
+    const updateFlightResult = await db
+      .collection("Flights")
+      .updateOne({ flightNumber: newFlightNum }, updateFlight);
+
     // return a success response
     return res
       .status(200)
@@ -239,6 +256,13 @@ const deleteReservation = async (req, res) => {
     const result = await reservationsCollection.deleteOne({
       _id: ObjectId(reservationId),
     });
+
+    const flightDelete = await db
+      .collection("Flights")
+      .updateOne(
+        { flightNumber: reservation.flight },
+        { $pull: { reservations: reservationId } }
+      );
 
     //return success
     return res

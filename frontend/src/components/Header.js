@@ -41,7 +41,9 @@ const Header = ({ handleChange, reservationId }) => {
       </Container>
       <Nav>
         {reservationId && (
-          <StyledNavLink to="/reservation">Reservation</StyledNavLink>
+          <StyledNavLink to={`/reservation/${reservationId}`}>
+            Reservation
+          </StyledNavLink>
         )}
       </Nav>
     </Wrapper>

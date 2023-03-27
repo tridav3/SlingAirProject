@@ -40,7 +40,7 @@ const App = () => {
             }
           />
           <Route path="/confirmation/:id" element={<Confirmation />} />
-          <Route path="/reservation/" element={<Reservation />} />
+          <Route path="/reservation/:id" element={<Reservation />} />
           <Route path="" element={<h1>404: Oops!</h1>} />
         </Routes>
         <Footer />

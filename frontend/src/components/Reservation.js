@@ -1,44 +1,47 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import tombstone from "../assets/tombstone.png";
 
 const Reservation = () => {
   const [reservation, setReservation] = useState(null);
-  const [reservationId, setReservationId] = useState(null);
+  const { id } = useParams();
+  console.log(reservation);
 
   useEffect(() => {
-    // TODO: fetch the details of the most recent reservation from the backend based on its unique id
-    if (reservationId) {
-      fetch(`/api/get-reservation/${reservationId}`)
+    // TODO: fetch the details of the reservation with the ID specified in the URL path
+    if (id) {
+      fetch(`/api/get-reservation/${id}`)
         .then((response) => response.json())
         .then((data) => {
-          setReservation(data.data);
+          setReservation(data);
         })
+
         .catch((error) => {
           console.error("Error fetching reservation:", error);
         });
     }
-  }, [reservationId]);
+  }, [id]);
 
   return (
     <Wrapper>
       {reservation ? (
-        <>
-          <ReservationInfo>
-            <h2>Your Reservation</h2>
-            <p>
-              Flight: {reservation.flight} Seat: {reservation.seat}
-            </p>
-            <p>
-              Name: {reservation.givenName} {reservation.surname}
-            </p>
-            <p>Email: {reservation.email}</p>
-          </ReservationInfo>
-        </>
+        <ReservationInfo>
+          <h2>Your Reservation</h2>
+          <p>
+            Flight: {reservation.flight} Seat: {reservation.seat}
+          </p>
+          <p>
+            Name: {reservation.firstName} {reservation.lastName}
+          </p>
+          <p>Email: {reservation.email}</p>
+        </ReservationInfo>
       ) : (
-        <Tombstone src={tombstone} alt="tombstone" />
+        <>
+          <Tombstone src={tombstone} alt="tombstone" />
+          <h2>No reservation found</h2>
+        </>
       )}
-      <h2>No reservation found</h2>
     </Wrapper>
   );
 };
