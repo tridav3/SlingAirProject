@@ -3,7 +3,7 @@ require("dotenv").config();
 
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require("uuid");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const { MONGO_URI } = process.env;
 const options = {
   useNewUrlParser: true,
@@ -33,8 +33,6 @@ const getFlights = async (req, res) => {
     client.close();
   }
 };
-
-module.exports = { getFlights };
 
 //Second
 // returns all the seats on a specified flight
@@ -196,20 +194,29 @@ const updateReservation = async (req, res) => {
       $set: {
         flight: newFlightNum,
         seat: newSeat,
+        givenName: req.body.givenName,
+        surname: req.body.surname,
       },
     };
     const result = await db
       .collection("Reservations")
       .updateOne({ _id: ObjectId(reservationId) }, updates);
-
-    const updateFlight = {
-      $push: {
-        reservations: reservationId,
-      },
+    //update flights/seat
+    const oldSeatQuery = {
+      flight: oldReservation.flight,
+      seat: oldReservation.seat,
     };
-    const updateFlightResult = await db
+    const newSeatQuery = { flight: newFlightNum, seat: newSeat };
+
+    const oldSeatUpdate = { $set: { isAvailable: true } };
+    const newSeatUpdate = { $set: { isAvailable: false } };
+
+    const oldSeatUpdateResult = await db
       .collection("Flights")
-      .updateOne({ flightNumber: newFlightNum }, updateFlight);
+      .updateOne(oldSeatQuery, oldSeatUpdate);
+    const newSeatUpdateResult = await db
+      .collection("Flights")
+      .updateOne(newSeatQuery, newSeatUpdate);
 
     // return a success response
     return res
@@ -228,8 +235,6 @@ const updateReservation = async (req, res) => {
   }
 };
 
-module.exports = { updateReservation };
-
 //seventh
 // deletes a specified reservation
 const deleteReservation = async (req, res) => {
@@ -246,15 +251,25 @@ const deleteReservation = async (req, res) => {
 
     //verify if reservation exists
     const reservation = await reservationsCollection.findOne({
-      _id: ObjectId(reservationId),
+      _id: reservationId,
     });
     if (!reservation) {
       return res.status(404).json({ message: "Reservation not found" });
     }
+    //update corresponding flight document
+    const update = {
+      $set: { isAvailable: true },
+    };
+    const fixSeat = await db
+      .collection("Flights")
+      .updateOne(
+        { flightNumber: reservation.flight, "seats.id": reservation.seat },
+        update
+      );
 
     //delete
     const result = await reservationsCollection.deleteOne({
-      _id: ObjectId(reservationId),
+      _id: reservationId,
     });
 
     const flightDelete = await db
