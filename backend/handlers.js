@@ -175,7 +175,7 @@ const updateReservation = async (req, res) => {
     //get old reservation
     const oldReservation = await db
       .collection("Reservations")
-      .findOne({ _id: ObjectId(reservationId) });
+      .findOne({ _id: new ObjectId(reservationId) });
 
     //check if seat is available
     const seatQuery = { flight: newFlightNum, seat: newSeat };
@@ -200,16 +200,30 @@ const updateReservation = async (req, res) => {
     };
     const result = await db
       .collection("Reservations")
-      .updateOne({ _id: ObjectId(reservationId) }, updates);
+      .updateOne({ _id: new ObjectId(reservationId) }, updates);
     //update flights/seat
     const oldSeatQuery = {
       flight: oldReservation.flight,
-      seat: oldReservation.seat,
+      "seats.id": oldReservation.seat,
     };
-    const newSeatQuery = { flight: newFlightNum, seat: newSeat };
+    const newSeatQuery = {
+      flight: newFlightNum,
+      "seats.id": newSeat,
+    };
 
-    const oldSeatUpdate = { $set: { isAvailable: true } };
-    const newSeatUpdate = { $set: { isAvailable: false } };
+    const oldSeatIndex = flights[oldReservation.flight].findIndex(
+      (s) => s.id === oldReservation.seat
+    );
+    const newSeatIndex = flights[newFlightNum].findIndex(
+      (s) => s.id === newSeat
+    );
+
+    const oldSeatUpdate = {
+      $set: { [`seats.${oldSeatIndex}.isAvailable`]: true },
+    };
+    const newSeatUpdate = {
+      $set: { [`seats.${newSeatIndex}.isAvailable`]: false },
+    };
 
     const oldSeatUpdateResult = await db
       .collection("Flights")
@@ -257,15 +271,16 @@ const deleteReservation = async (req, res) => {
       return res.status(404).json({ message: "Reservation not found" });
     }
     //update corresponding flight document
+    const flight = await db.collection("Flights").findOne({
+      flightNumber: reservation.flight,
+    });
+    const seatIndex = flight.seats.findIndex((s) => s.id === reservation.seat);
     const update = {
-      $set: { isAvailable: true },
+      $set: { [`seats.${seatIndex}.isAvailable`]: true },
     };
     const fixSeat = await db
       .collection("Flights")
-      .updateOne(
-        { flightNumber: reservation.flight, "seats.id": reservation.seat },
-        update
-      );
+      .updateOne({ flightNumber: reservation.flight }, update);
 
     //delete
     const result = await reservationsCollection.deleteOne({
